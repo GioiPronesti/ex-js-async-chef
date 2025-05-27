@@ -45,14 +45,20 @@ async function getChefBirthday(id) {
   try {
     ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
   } catch (error) {
-    throw new Error(`Non posso recuperare la ricetta id: ${id}`);
+    throw new Error(`Non posso recuperare la ricetta: ${id}`);
   }
 
   if (ricetta.message) {
     throw new Error(ricetta.message);
   }
 
-  const user = await fetchJson(`https://dummyjson.com/users/${ricetta.userId}`);
+  let user;
+  try {
+    user = await fetchJson(`https://dummyjson.com/users/${ricetta.userId}`);
+  } catch (error) {
+    throw new Error(`Non posso recuperare lo chef: ${id}`);
+  }
+
   const result = console.log(structuredClone(user));
   return result;
 }
