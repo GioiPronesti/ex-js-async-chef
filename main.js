@@ -59,10 +59,22 @@ async function getChefBirthday(id) {
     throw new Error(`Non posso recuperare lo chef: ${id}`);
   }
 
-  const result = console.log(structuredClone(user));
-  return result;
+  return user.birthDate;
 }
 
+(async () => {
+  try {
+    const birthday = await getChefBirthday(6);
+    console.log("Data di nascita dello chef:", birthday);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    console.log("Ho trovato la data dello chef !");
+  }
+})();
+
+/*
 getChefBirthday(6)
-  .then((birthday) => console.log("Data di nascita dello chef:", birthday))
+  .then((birthday) => console.log( birthday))
   .catch((error) => console.error("Errore:", error.message));
+*/
