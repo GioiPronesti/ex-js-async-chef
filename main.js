@@ -41,11 +41,22 @@ async function fetchJson(url) {
 }*/
 
 async function getChefBirthday(id) {
-  const ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
+  let ricetta;
+  try {
+    ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
+  } catch (error) {
+    throw new Error(`Non posso recuperare la ricetta id: ${id}`);
+  }
+
+  if (ricetta.message) {
+    throw new Error(ricetta.message);
+  }
+
   const user = await fetchJson(`https://dummyjson.com/users/${ricetta.userId}`);
-  return user;
+  const result = console.log(structuredClone(user));
+  return result;
 }
 
-getChefBirthday(2)
+getChefBirthday(6)
   .then((birthday) => console.log("Data di nascita dello chef:", birthday))
   .catch((error) => console.error("Errore:", error.message));
