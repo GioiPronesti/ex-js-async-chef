@@ -24,12 +24,13 @@ getChefBirthday(1)
 Output = Data di nascita dello chef: 1990-06-15
 
 */
-
+/*
 async function fetchJson(url) {
   const response = await fetch(url);
   const obj = await response.json();
   return obj;
 }
+*/
 
 /*function getChefBirthday(id) {
   fetchJson(`https://dummyjson.com/recipes/${id}`)
@@ -40,9 +41,13 @@ async function fetchJson(url) {
   });
 }*/
 
+// Gestisco gli errori e controllo l'esito della console
+
+/*
 async function getChefBirthday(id) {
   let ricetta;
   try {
+    // 1
     ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
   } catch (error) {
     throw new Error(`Non posso recuperare la ricetta: ${id}`);
@@ -54,17 +59,32 @@ async function getChefBirthday(id) {
 
   let user;
   try {
+    // 2
     user = await fetchJson(`https://dummyjson.com/users/${ricetta.userId}`);
   } catch (error) {
     throw new Error(`Non posso recuperare lo chef: ${id}`);
   }
-
+  // 3
   return user.birthDate;
 }
+*/
+
+async function getChefBirthday(id) {
+  const ricettaResponse = await fetch(`https://dummyjson.com/recipes/${id}`);
+  const ricetta = await ricettaResponse.json();
+  const chefResponse = await fetch(
+    `https://dummyjson.com/users/${ricetta.userId}`
+  );
+  const chef = await chefResponse.json();
+  return chef.birthDate;
+}
+
+// invoco la funzione asincrona getChefBirthday(id)
 
 (async () => {
   try {
-    const birthday = await getChefBirthday(6);
+    // 4
+    const birthday = await getChefBirthday(1);
     console.log("Data di nascita dello chef:", birthday);
   } catch (error) {
     console.error(error);
